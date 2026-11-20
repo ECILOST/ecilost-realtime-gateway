@@ -1,13 +1,23 @@
 # ECILOST Realtime Gateway
 
-Esqueleto para distribuir eventos de sala desde RabbitMQ. No contiene reglas de puja ni estado de negocio autoritativo.
+Proyecto base de NestJS para un futuro gateway de eventos de sala. El código actual inicia el proceso y carga configuración. El protocolo de transporte, la autenticación y el consumo de RabbitMQ están pendientes de implementación.
 
-```text
-src/
-  auth/ connections/ broker/ snapshots/ presentation/ws/ common/
-test/
+## Inicio local
+
+```bash
+cp .env.example .env
+npm install
+npm run start:dev
 ```
 
-WebSocket o SSE sigue pendiente de decisión; no se crean endpoints aún.
+El proceso escucha en `PORT`, con valor local por defecto `3004`. El canal Socket.IO operativo vive en Engagement, en el puerto `3005` y el namespace `/realtime`. Su README documenta el JWT del handshake, las suscripciones y la reconexión. Este repositorio aún carece de rutas HTTP para publicar OpenAPI.
 
-Los mensajes se consumen de forma independiente e idempotente. El Gateway no es serializador de pujas ni coordinador transaccional: conserva el orden publicado por cada `roomId` y puede escalar horizontalmente para salas diferentes.
+## Estructura y comprobación
+
+- [Autenticación de conexiones prevista](src/auth/README.md)
+- [Integración prevista con RabbitMQ](src/broker/README.md)
+
+```bash
+npm run typecheck
+npm run build
+```
